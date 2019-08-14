@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="catalogoOficialModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Carro">
+    <Key>
+      <PropertyRef Name="id_carro" />
+    </Key>
+    <Property Name="id_carro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome_Carro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cor_Carro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cliente" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Catalogo" Relationship="Self.FK__Catalogo__Carro__02FC7413" FromRole="Carro" ToRole="Catalogo" />
+    <NavigationProperty Name="Cliente1" Relationship="Self.FK_Carro_Cliente" FromRole="Carro" ToRole="Cliente" />
+  </EntityType>
+  <EntityType Name="Catalogo">
+    <Key>
+      <PropertyRef Name="id_Catalogo" />
+    </Key>
+    <Property Name="id_Catalogo" Type="Int32" Nullable="false" />
+    <Property Name="Carro" Type="Int32" />
+    <NavigationProperty Name="Carro1" Relationship="Self.FK__Catalogo__Carro__02FC7413" FromRole="Catalogo" ToRole="Carro" />
+    <NavigationProperty Name="Tipo" Relationship="Self.id_fk_catalogo" FromRole="Catalogo" ToRole="Tipo" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="id_Cliente" />
+    </Key>
+    <Property Name="id_Cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CPF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Sobrenome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Idade" Type="Int32" />
+    <Property Name="Sexo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Endereco" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="usuario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Carro" Relationship="Self.FK_Carro_Cliente" FromRole="Cliente" ToRole="Carro" />
+    <NavigationProperty Name="Usuario1" Relationship="Self.FK_Cliente_Usuario" FromRole="Cliente" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Pecas">
+    <Key>
+      <PropertyRef Name="id_Pecas" />
+    </Key>
+    <Property Name="id_Pecas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome_Pecas" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="preco_Pecas" Type="Double" />
+    <Property Name="tipo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Tipo1" Relationship="Self.FK_Pecas_Tipo" FromRole="Pecas" ToRole="Tipo" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tipo">
+    <Key>
+      <PropertyRef Name="id_Tipo" />
+    </Key>
+    <Property Name="id_Tipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="catalogo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Catalogo1" Relationship="Self.id_fk_catalogo" FromRole="Tipo" ToRole="Catalogo" />
+    <NavigationProperty Name="Pecas" Relationship="Self.FK_Pecas_Tipo" FromRole="Tipo" ToRole="Pecas" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id_Usuario" />
+    </Key>
+    <Property Name="id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome_Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="senha_Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Cliente_Usuario" FromRole="Usuario" ToRole="Cliente" />
+  </EntityType>
+  <Association Name="FK__Catalogo__Carro__02FC7413">
+    <End Role="Carro" Type="Self.Carro" Multiplicity="0..1" />
+    <End Role="Catalogo" Type="Self.Catalogo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Carro">
+        <PropertyRef Name="id_carro" />
+      </Principal>
+      <Dependent Role="Catalogo">
+        <PropertyRef Name="Carro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Carro_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Carro" Type="Self.Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="id_Cliente" />
+      </Principal>
+      <Dependent Role="Carro">
+        <PropertyRef Name="cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_fk_catalogo">
+    <End Role="Catalogo" Type="Self.Catalogo" Multiplicity="1" />
+    <End Role="Tipo" Type="Self.Tipo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catalogo">
+        <PropertyRef Name="id_Catalogo" />
+      </Principal>
+      <Dependent Role="Tipo">
+        <PropertyRef Name="catalogo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="id_Usuario" />
+      </Principal>
+      <Dependent Role="Cliente">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pecas_Tipo">
+    <End Role="Tipo" Type="Self.Tipo" Multiplicity="1" />
+    <End Role="Pecas" Type="Self.Pecas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tipo">
+        <PropertyRef Name="id_Tipo" />
+      </Principal>
+      <Dependent Role="Pecas">
+        <PropertyRef Name="tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="catalogoOficialEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Carro" EntityType="Self.Carro" />
+    <EntitySet Name="Catalogo" EntityType="Self.Catalogo" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="Pecas" EntityType="Self.Pecas" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Tipo" EntityType="Self.Tipo" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK__Catalogo__Carro__02FC7413" Association="Self.FK__Catalogo__Carro__02FC7413">
+      <End Role="Carro" EntitySet="Carro" />
+      <End Role="Catalogo" EntitySet="Catalogo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Carro_Cliente" Association="Self.FK_Carro_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Carro" EntitySet="Carro" />
+    </AssociationSet>
+    <AssociationSet Name="id_fk_catalogo" Association="Self.id_fk_catalogo">
+      <End Role="Catalogo" EntitySet="Catalogo" />
+      <End Role="Tipo" EntitySet="Tipo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_Usuario" Association="Self.FK_Cliente_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Cliente" EntitySet="Cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pecas_Tipo" Association="Self.FK_Pecas_Tipo">
+      <End Role="Tipo" EntitySet="Tipo" />
+      <End Role="Pecas" EntitySet="Pecas" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(catalogoOficialModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(catalogoOficialModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

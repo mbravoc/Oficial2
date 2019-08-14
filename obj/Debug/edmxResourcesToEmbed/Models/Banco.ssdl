@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="catalogoOficialModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Carro">
+    <Key>
+      <PropertyRef Name="id_carro" />
+    </Key>
+    <Property Name="id_carro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome_Carro" Type="varchar" MaxLength="50" />
+    <Property Name="cor_Carro" Type="varchar" MaxLength="50" />
+    <Property Name="cliente" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Catalogo">
+    <Key>
+      <PropertyRef Name="id_Catalogo" />
+    </Key>
+    <Property Name="id_Catalogo" Type="int" Nullable="false" />
+    <Property Name="Carro" Type="int" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="id_Cliente" />
+    </Key>
+    <Property Name="id_Cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CPF" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="50" />
+    <Property Name="Sobrenome" Type="varchar" MaxLength="50" />
+    <Property Name="Idade" Type="int" />
+    <Property Name="Sexo" Type="varchar" MaxLength="30" />
+    <Property Name="Endereco" Type="varchar" MaxLength="50" />
+    <Property Name="Cidade" Type="varchar" MaxLength="50" />
+    <Property Name="usuario" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Pecas">
+    <Key>
+      <PropertyRef Name="id_Pecas" />
+    </Key>
+    <Property Name="id_Pecas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome_Pecas" Type="varchar" MaxLength="50" />
+    <Property Name="preco_Pecas" Type="float" />
+    <Property Name="tipo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tipo">
+    <Key>
+      <PropertyRef Name="id_Tipo" />
+    </Key>
+    <Property Name="id_Tipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao" Type="varchar" MaxLength="200" />
+    <Property Name="catalogo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id_Usuario" />
+    </Key>
+    <Property Name="id_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome_Usuario" Type="varchar" MaxLength="50" />
+    <Property Name="senha_Usuario" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Catalogo__Carro__02FC7413">
+    <End Role="Carro" Type="Self.Carro" Multiplicity="0..1" />
+    <End Role="Catalogo" Type="Self.Catalogo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Carro">
+        <PropertyRef Name="id_carro" />
+      </Principal>
+      <Dependent Role="Catalogo">
+        <PropertyRef Name="Carro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Carro_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Carro" Type="Self.Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="id_Cliente" />
+      </Principal>
+      <Dependent Role="Carro">
+        <PropertyRef Name="cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cliente_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="id_Usuario" />
+      </Principal>
+      <Dependent Role="Cliente">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pecas_Tipo">
+    <End Role="Tipo" Type="Self.Tipo" Multiplicity="1" />
+    <End Role="Pecas" Type="Self.Pecas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tipo">
+        <PropertyRef Name="id_Tipo" />
+      </Principal>
+      <Dependent Role="Pecas">
+        <PropertyRef Name="tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_fk_catalogo">
+    <End Role="Catalogo" Type="Self.Catalogo" Multiplicity="1" />
+    <End Role="Tipo" Type="Self.Tipo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catalogo">
+        <PropertyRef Name="id_Catalogo" />
+      </Principal>
+      <Dependent Role="Tipo">
+        <PropertyRef Name="catalogo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="catalogoOficialModelStoreContainer">
+    <EntitySet Name="Carro" EntityType="Self.Carro" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Catalogo" EntityType="Self.Catalogo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pecas" EntityType="Self.Pecas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tipo" EntityType="Self.Tipo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Catalogo__Carro__02FC7413" Association="Self.FK__Catalogo__Carro__02FC7413">
+      <End Role="Carro" EntitySet="Carro" />
+      <End Role="Catalogo" EntitySet="Catalogo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Carro_Cliente" Association="Self.FK_Carro_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Carro" EntitySet="Carro" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cliente_Usuario" Association="Self.FK_Cliente_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Cliente" EntitySet="Cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pecas_Tipo" Association="Self.FK_Pecas_Tipo">
+      <End Role="Tipo" EntitySet="Tipo" />
+      <End Role="Pecas" EntitySet="Pecas" />
+    </AssociationSet>
+    <AssociationSet Name="id_fk_catalogo" Association="Self.id_fk_catalogo">
+      <End Role="Catalogo" EntitySet="Catalogo" />
+      <End Role="Tipo" EntitySet="Tipo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
