@@ -1,0 +1,26 @@
+﻿@model Oficial2.Models.Catalogo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Catalogo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Carro1.nome_Carro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carro1.nome_Carro)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Catalogo }) |
+    @Html.ActionLink("Back to List", "IndexCatalogo")
+</p>

@@ -1,0 +1,42 @@
+﻿@model Oficial2.Models.Pecas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pecas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nome_Pecas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nome_Pecas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.preco_Pecas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.preco_Pecas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipo1.descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo1.descricao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Pecas }) |
+    @Html.ActionLink("Back to List", "IndexPecas")
+</p>

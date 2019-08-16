@@ -10,109 +10,114 @@ using Oficial2.Models;
 
 namespace Oficial2.Controllers
 {
-    public class UsuarioController : Controller
+    public class PecasController : Controller
     {
-        private readonly catalogoOficialEntities db = new catalogoOficialEntities();
+        private catalogoOficialEntities db = new catalogoOficialEntities();
 
-        // GET: Usuario
-        public ActionResult IndexUsuario()
+        // GET: Pecas
+        public ActionResult IndexPecas()
         {
-            return View(db.Usuario.ToList());
+            var pecas = db.Pecas.Include(p => p.Tipo1);
+            return View(pecas.ToList());
         }
 
-        // GET: Usuario/Details/5
+        // GET: Pecas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Pecas pecas = db.Pecas.Find(id);
+            if (pecas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(pecas);
         }
 
-        // GET: Usuario/Create
+        // GET: Pecas/Create
         public ActionResult Create()
         {
+            ViewBag.tipo = new SelectList(db.Tipo, "id_Tipo", "descricao");
             return View();
         }
 
-        // POST: Usuario/Create
+        // POST: Pecas/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Usuario,nome_Usuario,senha_Usuario")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "id_Pecas,nome_Pecas,preco_Pecas,tipo")] Pecas pecas)
         {
             if (ModelState.IsValid)
             {
-                db.Usuario.Add(usuario);
+                db.Pecas.Add(pecas);
                 db.SaveChanges();
-                return RedirectToAction("IndexUsuario");
+                return RedirectToAction("IndexPecas");
             }
 
-            return View(usuario);
+            ViewBag.tipo = new SelectList(db.Tipo, "id_Tipo", "descricao", pecas.tipo);
+            return View(pecas);
         }
 
-        // GET: Usuario/Edit/5
+        // GET: Pecas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Pecas pecas = db.Pecas.Find(id);
+            if (pecas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            ViewBag.tipo = new SelectList(db.Tipo, "id_Tipo", "descricao", pecas.tipo);
+            return View(pecas);
         }
 
-        // POST: Usuario/Edit/5
+        // POST: Pecas/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Usuario,nome_Usuario,senha_Usuario")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "id_Pecas,nome_Pecas,preco_Pecas,tipo")] Pecas pecas)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
+                db.Entry(pecas).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("IndexUsuario");
+                return RedirectToAction("IndexPecas");
             }
-            return View(usuario);
+            ViewBag.tipo = new SelectList(db.Tipo, "id_Tipo", "descricao", pecas.tipo);
+            return View(pecas);
         }
 
-        // GET: Usuario/Delete/5
+        // GET: Pecas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Pecas pecas = db.Pecas.Find(id);
+            if (pecas == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(pecas);
         }
 
-        // POST: Usuario/Delete/5
+        // POST: Pecas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuario.Find(id);
-            db.Usuario.Remove(usuario);
+            Pecas pecas = db.Pecas.Find(id);
+            db.Pecas.Remove(pecas);
             db.SaveChanges();
-            return RedirectToAction("IndexUsuario");
+            return RedirectToAction("IndexPecas");
         }
 
         protected override void Dispose(bool disposing)

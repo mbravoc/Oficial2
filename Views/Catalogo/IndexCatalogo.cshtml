@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Oficial2.Models.Catalogo>
+
+@{
+    ViewBag.Title = "IndexCatalogo";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Carro1.nome_Carro)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Carro1.nome_Carro)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_Catalogo }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_Catalogo }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_Catalogo })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<html>
+<head>
+    <title>Menu Horizontal</title>
+    <meta charset="UTF-8" />
+    <link href="~/Content/index_estilo.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <nav class="menu">
+        <ul>
+            <li><a href="#">Argentina</a></li>
+            <li>
+                <a href="#">Brasil</a>
+                <ul>
+                    <li><a href="#">Norte</a></li>
+                    <li>
+                        <a href="#">Nordeste</a>
+                        <ul>
+                            <li><a href="#">Bahia</a></li>
+                            <li><a href="#">Pernambuco</a></li>
+                            <li><a href="#">Sergipe</a></li>
+                            <li><a href="#">Alagoas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Centro-Oeste</a></li>
+                    <li>
+                        <a href="#">Sudeste</a>
+                        <ul>
+                            <li><a href="@Html.ActionLink("Usuarios", "IndexUsuario", "Usuario")"></a></li>
+                            <li><a href="#">Minas Gerais</a></li>
+                            <li><a href="#">Rio de Janeiro</a></li>
+                            <li><a href="#">São Paulo</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Sul</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Colombia</a></li>
+            <li><a href="#">Paraguai</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

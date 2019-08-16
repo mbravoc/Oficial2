@@ -1,0 +1,42 @@
+﻿@model Oficial2.Models.Carro
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Carro</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nome_Carro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nome_Carro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cor_Carro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cor_Carro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente1.CPF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente1.CPF)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_carro }) |
+    @Html.ActionLink("Back to List", "IndexCarro")
+</p>

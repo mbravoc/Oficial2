@@ -10,109 +10,114 @@ using Oficial2.Models;
 
 namespace Oficial2.Controllers
 {
-    public class UsuarioController : Controller
+    public class ClienteController : Controller
     {
-        private readonly catalogoOficialEntities db = new catalogoOficialEntities();
+        private catalogoOficialEntities db = new catalogoOficialEntities();
 
-        // GET: Usuario
-        public ActionResult IndexUsuario()
+        // GET: Cliente
+        public ActionResult IndexCliente()
         {
-            return View(db.Usuario.ToList());
+            var cliente = db.Cliente.Include(c => c.Usuario1);
+            return View(cliente.ToList());
         }
 
-        // GET: Usuario/Details/5
+        // GET: Cliente/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Cliente cliente = db.Cliente.Find(id);
+            if (cliente == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(cliente);
         }
 
-        // GET: Usuario/Create
+        // GET: Cliente/Create
         public ActionResult Create()
         {
+            ViewBag.usuario = new SelectList(db.Usuario, "id_Usuario", "nome_Usuario");
             return View();
         }
 
-        // POST: Usuario/Create
+        // POST: Cliente/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Usuario,nome_Usuario,senha_Usuario")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "id_Cliente,CPF,Nome,Sobrenome,Idade,Sexo,Endereco,Cidade,usuario")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
-                db.Usuario.Add(usuario);
+                db.Cliente.Add(cliente);
                 db.SaveChanges();
-                return RedirectToAction("IndexUsuario");
+                return RedirectToAction("IndexCliente");
             }
 
-            return View(usuario);
+            ViewBag.usuario = new SelectList(db.Usuario, "id_Usuario", "nome_Usuario", cliente.usuario);
+            return View(cliente);
         }
 
-        // GET: Usuario/Edit/5
+        // GET: Cliente/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Cliente cliente = db.Cliente.Find(id);
+            if (cliente == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            ViewBag.usuario = new SelectList(db.Usuario, "id_Usuario", "nome_Usuario", cliente.usuario);
+            return View(cliente);
         }
 
-        // POST: Usuario/Edit/5
+        // POST: Cliente/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Usuario,nome_Usuario,senha_Usuario")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "id_Cliente,CPF,Nome,Sobrenome,Idade,Sexo,Endereco,Cidade,usuario")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
+                db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("IndexUsuario");
+                return RedirectToAction("IndexCliente");
             }
-            return View(usuario);
+            ViewBag.usuario = new SelectList(db.Usuario, "id_Usuario", "nome_Usuario", cliente.usuario);
+            return View(cliente);
         }
 
-        // GET: Usuario/Delete/5
+        // GET: Cliente/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
+            Cliente cliente = db.Cliente.Find(id);
+            if (cliente == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(cliente);
         }
 
-        // POST: Usuario/Delete/5
+        // POST: Cliente/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuario.Find(id);
-            db.Usuario.Remove(usuario);
+            Cliente cliente = db.Cliente.Find(id);
+            db.Cliente.Remove(cliente);
             db.SaveChanges();
-            return RedirectToAction("IndexUsuario");
+            return RedirectToAction("IndexCliente");
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Oficial2.Models.Carro>
+
+@{
+    ViewBag.Title = "IndexCarro";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nome_Carro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cor_Carro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente1.CPF)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nome_Carro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cor_Carro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente1.CPF)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_carro }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_carro }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_carro })
+        </td>
+    </tr>
+}
+
+</table>
